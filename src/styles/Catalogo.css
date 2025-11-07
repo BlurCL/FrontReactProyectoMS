@@ -1,0 +1,97 @@
+/* Contenedor general */
+.catalogo-wrapper {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 12px;
+}
+
+/* Título de página */
+.catalogo-titulo {
+  text-align: left;
+  margin: 0 0 20px 0;
+  font-size: 24px;
+}
+
+/* Tarjeta por categoría */
+.categoria-card {
+  background: #fffaf3;                  /* crema suave similar a la referencia */
+  border: 2px solid #c58a3b;            /* borde café claro */
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+}
+
+.categoria-header {
+  font-weight: 700;
+  font-size: 18px;
+  color: #4a2b0b;                        /* café más oscuro */
+  border-bottom: 2px solid #e2c59b;      /* franja superior/inferior */
+  padding: 8px 2px;
+  margin-bottom: 8px;
+}
+
+/* Lista de productos dentro de la tarjeta */
+.productos-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.producto-row {
+  padding: 8px 2px 14px 2px;             /* espacio extra bajo para el botón */
+  position: relative;
+}
+
+.producto-textos {
+  margin-bottom: 8px;
+  line-height: 1.25rem;
+}
+
+.producto-linea {
+  font-size: 16px;
+}
+
+.producto-precio {
+  font-size: 12px;
+  color: #6b6b6b;                        /* gris suave como “subtítulo” */
+  margin-top: 2px;
+}
+
+/* Botón “Agregar al Carrito” similar al de la captura */
+.btn-agregar {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #8b2d0d;
+  background: #d1490b;                   /* naranjo-marrón */
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-agregar:hover {
+  filter: brightness(0.95);
+}
+
+/* Separador entre productos dentro de la misma categoría */
+.producto-divider {
+  border: none;
+  border-top: 2px solid #f0d8b6;         /* línea clara */
+  margin: 12px 0 0 0;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .categoria-card {
+    padding: 10px;
+  }
+  .producto-linea {
+    font-size: 15px;
+  }
+  .btn-agregar {
+    width: 100%;
+    text-align: center;
+    margin-top: 6px;
+  }
+}
