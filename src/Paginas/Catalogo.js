@@ -2,6 +2,7 @@
 import React, { useMemo } from "react";
 import "../styles/Catalogo.css";
 
+
 function Catalogo() {
   const productos = [
     { id: "TC001", categoria: "Tortas Cuadradas", nombre: "Torta Cuadrada de Chocolate", precio: 45000 },

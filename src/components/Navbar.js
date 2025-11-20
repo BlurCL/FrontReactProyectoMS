@@ -5,7 +5,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-custom">
       <div className="container">
-        <Link className="navbar-brand" to="/">Pastelería Mil Sabores</Link>
+        <Link className="navbar-brand" to="/">Pastelería Mil Sabores🍰</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -23,9 +23,7 @@ function Navbar() {
             <li className="nav-item">
               <Link className="nav-link active" to="/">Inicio</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/catalogo">Catalogo</Link>
-            </li>
+            
             <li className="nav-item">
               <Link className="nav-link" to="#">Nosotros</Link>
             </li>

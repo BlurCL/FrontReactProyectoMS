@@ -1,0 +1,28 @@
+.receta-container {
+  max-width: 800px;        /* ancho máximo del recuadro */
+  margin: 40px auto;       /* centra el contenido horizontalmente */
+  padding: 30px;           /* espacio interno */
+  background: white;       /* recuadro blanco */
+  border-radius: 12px;     /* bordes redondeados */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* sombra suave */
+  text-align: left;        /* texto ordenado a la izquierda */
+}
+
+/* Centrar el título */
+.receta-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Mejor lectura de listas */
+.receta-container ul,
+.receta-container ol {
+  margin-left: 25px;
+  line-height: 1.6;
+}
+
+/* Espacios entre secciones */
+.receta-container h2,
+.receta-container h3 {
+  margin-top: 25px;
+}

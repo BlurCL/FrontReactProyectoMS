@@ -10,6 +10,20 @@
   --transition: all 0.3s ease;
 }
 
+/* Seguridad global */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* HOME */
 .home {
   background: var(--bg);
   color: var(--text);
@@ -48,6 +62,7 @@
   transition: var(--transition);
   box-shadow: var(--shadow);
 }
+
 .btn-catalogo:hover {
   background-color: var(--accent-strong);
   transform: translateY(-3px);
@@ -58,20 +73,28 @@
   display: flex;
   justify-content: center;
   align-items: stretch;
-  flex-wrap: wrap; /* permite adaptarse en pantallas pequeñas */
+  flex-wrap: wrap;
   gap: 20px;
   padding: 40px 20px;
   max-width: 1100px;
   margin: 0 auto;
 }
 
+/* Links de las tarjetas */
+.image-container a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Tarjetas */
 .image-card {
   background: white;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  flex: 1 1 300px; /* ancho flexible */
+  flex: 1 1 300px;  
   max-width: 350px;
+  width: 100%;
   transition: var(--transition);
   cursor: pointer;
 }
@@ -81,14 +104,16 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
 }
 
+/* IMAGEN RESPONSIVA */
 .image-card img {
-  width: 100%;
+  width: 100%;          /* 👈 antes estaba en 300px, esto causaba el scroll */
   height: 240px;
   object-fit: cover;
   display: block;
 }
 
 .image-card h3 {
+  text-decoration: none;
   font-size: 18px;
   margin: 12px 0 16px;
   color: var(--text);
@@ -110,4 +135,50 @@
   color: var(--muted);
   font-size: 16px;
   line-height: 1.6;
+}
+
+/* ----------------------- */
+/*   RESPONSIVO – MÓVIL    */
+/* ----------------------- */
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 40px 16px 28px;
+  }
+
+  .image-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+  }
+
+  .image-card {
+    max-width: 100%;
+  }
+
+  .image-card img {
+    height: 220px;
+  }
+
+  .info {
+    padding: 16px;
+  }
+
+  .info p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 24px;
+  }
+
+  .image-card img {
+    height: 200px;
+  }
+
+  .image-card h3 {
+    font-size: 16px;
+  }
 }

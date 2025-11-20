@@ -1,68 +1,96 @@
 import React, { useState } from "react";
-import "../styles/Registrarse.css"; // 👈 Importa los estilos externos
+import "../styles/Registrarse.css"; // Archivo CSS opcional
 
-function Registrarse() {
-  const [formData, setFormData] = useState({
+function RegistroUsuario() {
+  // Estado del formulario
+  const [formulario, setFormulario] = useState({
     nombre: "",
-    email: "",
-    password: ""
+    edad: "",
+    correo: "",
+    contrasena: ""
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value   
+  // Manejar cambios en los inputs
+  const manejarCambio = (evento) => {
+    setFormulario({
+      ...formulario,
+      [evento.target.name]: evento.target.value
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Datos enviados:", formData);
-    // 🔜 Aquí puedes agregar la llamada a tu backend con fetch o axios
+  // Manejar envío del formulario
+  const manejarEnvio = (evento) => {
+    evento.preventDefault();
+
+    console.log("Datos enviados:", formulario);
+
+    // Aquí podrías enviar los datos al backend más adelante:
+    // fetch("http://localhost:8080/usuarios", { ... })
   };
 
   return (
-    <div className="registro-container">
+    <div className="registro-contenedor">
       <h2>Registro de Usuario</h2>
-      <form onSubmit={handleSubmit} className="registro-form">
-        <div className="form-group">
+
+      <form onSubmit={manejarEnvio} className="registro-formulario">
+
+        {/* Nombre */}
+        <div className="grupo-formulario">
           <input
             type="text"
             name="nombre"
             placeholder="Nombre completo"
-            value={formData.nombre}
-            onChange={handleChange}
+            value={formulario.nombre}
+            onChange={manejarCambio}
             required
           />
         </div>
-        <div className="form-group">
+
+        {/* Edad */}
+        <div className="grupo-formulario">
+          <input
+            type="number"
+            name="edad"
+            placeholder="Edad"
+            value={formulario.edad}
+            onChange={manejarCambio}
+            min="1"
+            required
+          />
+        </div>
+
+        {/* Correo */}
+        <div className="grupo-formulario">
           <input
             type="email"
-            name="email"
+            name="correo"
             placeholder="Correo electrónico"
-            value={formData.email}
-            onChange={handleChange}
+            value={formulario.correo}
+            onChange={manejarCambio}
             required
           />
         </div>
-        <div className="form-group">
+
+        {/* Contraseña */}
+        <div className="grupo-formulario">
           <input
             type="password"
-            name="password"
+            name="contrasena"
             placeholder="Contraseña"
-            value={formData.password}
-            onChange={handleChange}
+            value={formulario.contrasena}
+            onChange={manejarCambio}
             required
           />
         </div>
+
         <button type="submit" className="btn-registrarse">
           Registrarse
         </button>
+
       </form>
     </div>
   );
 }
 
-export default Registrarse;
-
+export default RegistroUsuario;
 
