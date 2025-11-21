@@ -95,3 +95,61 @@
     margin-top: 6px;
   }
 }
+
+/* agregado por victor evaluar 
+/* Cada producto en fila: imagen a la izquierda, texto a la derecha */
+.producto-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 24px;
+}
+
+/* Contenedor de la imagen */
+.producto-imagen-wrapper {
+  flex: 0 0 140px;              /* ancho fijo aprox */
+}
+
+/* Imagen reducida y recortada prolija */
+.producto-imagen {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+/* Contenido (texto + botón) ocupa el resto del ancho */
+.producto-contenido {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Un poco más de orden en la descripción */
+.producto-descripcion {
+  font-size: 0.9rem;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+/* Opcional: en pantallas muy pequeñas, que se apile */
+@media (max-width: 600px) {
+  .producto-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .producto-imagen-wrapper {
+    flex: 0 0 auto;
+  }
+
+  .producto-imagen {
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+  }
+}
+

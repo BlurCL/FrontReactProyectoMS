@@ -1,45 +1,134 @@
+// src/Paginas/catalogoconapi.js
 import React, { useEffect, useState } from "react";
 import { getProductos } from "../api/productosApi";
+import "../styles/Catalogo.css";
+
+// 🖼 Importa desde src/img (como se ve en tu screenshot)
+import imgTortaChocolate from "../img/torta-chocolate.jpg";
+import imgTortaPina from "../img/torta-pina.jpg";
+import imgTortaMilhojas from "../img/torta-milhojas.jpg";
+import imgTortaFrutillas from "../img/torta-frutillas.jpg";
+
+// Usa una de las que ya tienes como “por defecto”
+import imgDefault from "../img/torta1.jpg";
+
+// 🧭 Mapa ID → Nombre de categoría
+const CATEGORIAS_POR_ID = {
+  7: "Tortas Cuadradas",
+  8: "Tortas Circulares",
+};
+
+// 🖼 Mapa ID producto → imagen
+const IMAGENES_POR_ID = {
+  "202": imgTortaChocolate,
+  "203": imgTortaPina,
+  "204": imgTortaMilhojas,
+  "205": imgTortaFrutillas,
+};
 
 function Catalogoconapi() {
   const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function cargarProductos() {
       try {
         const data = await getProductos();
-        console.log("Respuesta de /api/productos:", data);
-        setProductos(data); // data es el array de productos
+
+        const normalizados = data.map((p) => {
+          const codigo = String(p.codigoProducto || p.id || p.codigo);
+
+          return {
+            id: codigo,
+            nombre: p.nombreProducto,
+            descripcion: p.descripcionProducto,
+            precio: p.precioProducto,
+            categoriaId: p.categoriaId,
+            categoria: CATEGORIAS_POR_ID[p.categoriaId] || "Sin categoría",
+            imagen: IMAGENES_POR_ID[codigo] || imgDefault,
+          };
+        });
+
+        setProductos(normalizados);
       } catch (err) {
         console.error(err);
         setError("No se pudieron cargar los productos");
       } finally {
-        setLoading(false);
+        setCargando(false);
       }
     }
 
     cargarProductos();
   }, []);
 
-  if (loading) return <p>Cargando productos...</p>;
-  if (error) return <p>{error}</p>;
+  if (cargando) return <p>Cargando productos...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+
+  const agrupado = productos.reduce((acc, p) => {
+    (acc[p.categoria] = acc[p.categoria] || []).push(p);
+    return acc;
+  }, {});
+
+  const agregarAlCarrito = (p) => {
+    alert(`Agregado: ${p.nombre}`);
+  };
 
   return (
-    <div className="catalogo-container">
-      <h1>Catálogo (con API)</h1>
-      <div className="catalogo-grid">
-        {productos.map((p) => (
-          <div key={p.id} className="card-producto">
-            <h3>{p.nombreProducto}</h3>
-            <p>{p.descripcionProducto}</p>
-            <p>Precio: ${p.precioProducto}</p>
-            {/* Si quieres mostrar la categoría: */}
-            {/* <small>Categoría ID: {p.categoriaId}</small> */}
-          </div>
-        ))}
-      </div>
+    <div className="catalogo-wrapper">
+      <h2 className="catalogo-titulo">Catálogo de productos (con API)</h2>
+
+      {Object.entries(agrupado).map(([categoria, items]) => (
+        <section className="categoria-card" key={categoria}>
+          <header className="categoria-header">{categoria}</header>
+
+          <ul className="productos-lista">
+            {items.map((p, idx) => (
+              <li className="producto-row" key={p.id}>
+                {/* Imagen */}
+                <div className="producto-imagen-wrapper">
+                  <img
+                    src={p.imagen}
+                    alt={p.nombre}
+                    className="producto-imagen"
+                  />
+                </div>
+
+                {/* Texto + botón */}
+                <div className="producto-contenido">
+                  <div className="producto-textos">
+                    <div className="producto-linea">
+                      <strong>{p.id}</strong> &nbsp;-&nbsp; {p.nombre}
+                    </div>
+
+                    {p.descripcion && (
+                      <div className="producto-descripcion">
+                        {p.descripcion}
+                      </div>
+                    )}
+
+                    <div className="producto-precio">
+                      {p.precio.toLocaleString("es-CL")} CLP
+                    </div>
+                  </div>
+
+                  <button
+                    className="btn-agregar"
+                    onClick={() => agregarAlCarrito(p)}
+                    type="button"
+                  >
+                    Agregar al Carrito
+                  </button>
+                </div>
+
+                {idx !== items.length - 1 && (
+                  <hr className="producto-divider" />
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
     </div>
   );
 }
