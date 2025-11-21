@@ -27,3 +27,16 @@ export async function crearPedido(carrito) {
 
   return await resp.json();
 }
+
+// 🔹 NUEVO: obtener todos los pedidos (para el panel admin)
+export async function getPedidos() {
+  const resp = await fetch(ORDER_API_BASE, {
+    method: "GET",
+  });
+
+  if (!resp.ok) {
+    throw new Error(`Error al obtener pedidos: ${resp.status}`);
+  }
+
+  return await resp.json(); // lista de pedidos con sus detalles
+}
