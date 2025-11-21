@@ -9,6 +9,7 @@ import RecetaPremium from "./Recetas/RecetaPremium";
 import Registrarse from "./Paginas/Registrarse";
 import Catalogo from "./Paginas/Catalogo";
 import Home from "./Paginas/Home";
+import Catalogoconapi from "./Paginas/catalogoconapi";
 import "./App.css";
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/receta-enamorados" element={<RecetaEnamorados />} />
         <Route path="/receta-chocolate" element={<RecetaChocolate />} />
         <Route path="/receta-premium" element={<RecetaPremium />} />
+        <Route path="/catalogo-api" element={<Catalogoconapi />} />
       </Routes>
 
       <Footer />
