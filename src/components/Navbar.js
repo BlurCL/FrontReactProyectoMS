@@ -1,10 +1,10 @@
+// src/components/Navbar.js
 import React from "react";
 import { Link } from "react-router-dom";
 import { useCarrito } from "../context/CarritoContext";
 
 function Navbar() {
-  const carrito = useCarrito();
-  const items = carrito?.items ?? [];
+  const { items } = useCarrito();
   const cantidadTotal = items.reduce((acc, it) => acc + it.cantidad, 0);
 
   return (
@@ -29,7 +29,7 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link active" to="/">
+              <Link className="nav-link" to="/">
                 Inicio
               </Link>
             </li>
@@ -52,15 +52,17 @@ function Navbar() {
               </Link>
             </li>
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/registrarse">
-                Registrarse
-              </Link>
-            </li>
-
+            {/* Carrito con cantidad */}
             <li className="nav-item">
               <Link className="nav-link" to="/carrito">
                 Carrito {cantidadTotal > 0 && `(${cantidadTotal})`}
+              </Link>
+            </li>
+
+            {/* 👇 Nuevo acceso privado para funcionarios */}
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/login">
+                Acceso funcionario
               </Link>
             </li>
           </ul>

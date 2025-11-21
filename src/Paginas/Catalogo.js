@@ -1,44 +1,79 @@
-// src/Paginas/Catalogo.js
-import React, { useMemo } from "react";
+// src/Paginas/catalogoconapi.js
+import React, { useEffect, useState } from "react";
+import { getProductos } from "../api/productosApi";
 import "../styles/Catalogo.css";
 
+import imgTortaChocolate from "../img/torta-chocolate.jpg";
+import imgTortaPina from "../img/torta-pina.jpg";
+import imgTortaMilhojas from "../img/torta-milhojas.jpg";
+import imgTortaFrutillas from "../img/torta-frutillas.jpg";
+import imgDefault from "../img/torta1.jpg";
 
-function Catalogo() {
-  const productos = [
-    { id: "TC001", categoria: "Tortas Cuadradas", nombre: "Torta Cuadrada de Chocolate", precio: 45000 },
-    { id: "TC002", categoria: "Tortas Cuadradas", nombre: "Torta Cuadrada de Frutas", precio: 50000 },
-    { id: "TT001", categoria: "Tortas Circulares", nombre: "Torta Circular de Vainilla", precio: 40000 },
-    { id: "TT002", categoria: "Tortas Circulares", nombre: "Torta Circular de Manjar", precio: 42000 },
-    { id: "PI001", categoria: "Postres Individuales", nombre: "Mousse de Chocolate", precio: 5000 },
-    { id: "PI002", categoria: "Postres Individuales", nombre: "Tiramisú Clásico", precio: 5500 },
-    { id: "PSA001", categoria: "Productos Sin Azúcar", nombre: "Torta Sin Azúcar de Naranja", precio: 48000 },
-    { id: "PSA002", categoria: "Productos Sin Azúcar", nombre: "Cheesecake Sin Azúcar", precio: 47000 },
-    { id: "PT001", categoria: "Pastelería Tradicional", nombre: "Empanada de Manzana", precio: 3000 },
-    { id: "PT002", categoria: "Pastelería Tradicional", nombre: "Tarta de Santiago", precio: 6000 },
-    { id: "PG001", categoria: "Productos Sin Gluten", nombre: "Brownie Sin Gluten", precio: 4000 },
-    { id: "PG002", categoria: "Productos Sin Gluten", nombre: "Pan Sin Gluten", precio: 3500 },
-    { id: "PV001", categoria: "Productos Vegana", nombre: "Torta Vegana de Chocolate", precio: 50000 },
-    { id: "PV002", categoria: "Productos Vegana", nombre: "Galletas Veganas de Avena", precio: 4500 },
-    { id: "TE001", categoria: "Tortas Especiales", nombre: "Torta Especial de Cumpleaños", precio: 55000 },
-    { id: "TE002", categoria: "Tortas Especiales", nombre: "Torta Especial de Boda", precio: 60000 },
-  ];
+import { useCarrito } from "../context/CarritoContext";   // ✅ nuevo import
 
-  // Agrupar por categoría para render similar a tu captura
-  const agrupado = useMemo(() => {
-    return productos.reduce((acc, p) => {
-      (acc[p.categoria] = acc[p.categoria] || []).push(p);
-      return acc;
-    }, {});
-  }, [productos]);
+// 🧭 Mapa ID → Nombre de categoría
+const CATEGORIAS_POR_ID = {
+  7: "Tortas Cuadradas",
+  8: "Tortas Circulares",
+};
 
-  const agregarAlCarrito = (producto) => {
-    // aquí luego puedes conectar con contexto/Redux o tu backend
-    alert(`Agregado: ${producto.id} - ${producto.nombre}`);
-  };
+// 🖼 Mapa ID producto → imagen
+const IMAGENES_POR_ID = {
+  "202": imgTortaChocolate,
+  "203": imgTortaPina,
+  "204": imgTortaMilhojas,
+  "205": imgTortaFrutillas,
+};
+
+function Catalogoconapi() {
+  const [productos, setProductos] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { agregarAlCarrito } = useCarrito();            // ✅ usamos el contexto
+
+  useEffect(() => {
+    async function cargarProductos() {
+      try {
+        const data = await getProductos();
+
+        const normalizados = data.map((p) => {
+          const codigo = String(p.codigoProducto || p.id || p.codigo);
+
+          return {
+            id: codigo,
+            nombre: p.nombreProducto,
+            descripcion: p.descripcionProducto,
+            precio: p.precioProducto,
+            categoriaId: p.categoriaId,
+            categoria: CATEGORIAS_POR_ID[p.categoriaId] || "Sin categoría",
+            imagen: IMAGENES_POR_ID[codigo] || imgDefault,
+          };
+        });
+
+        setProductos(normalizados);
+      } catch (err) {
+        console.error(err);
+        setError("No se pudieron cargar los productos");
+      } finally {
+        setCargando(false);
+      }
+    }
+
+    cargarProductos();
+  }, []);
+
+  if (cargando) return <p>Cargando productos...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+
+  const agrupado = productos.reduce((acc, p) => {
+    (acc[p.categoria] = acc[p.categoria] || []).push(p);
+    return acc;
+  }, {});
 
   return (
     <div className="catalogo-wrapper">
-      <h2 className="catalogo-titulo">Catálogo de Productos</h2>
+      <h2 className="catalogo-titulo">Catálogo de productos (con API)</h2>
 
       {Object.entries(agrupado).map(([categoria, items]) => (
         <section className="categoria-card" key={categoria}>
@@ -47,25 +82,51 @@ function Catalogo() {
           <ul className="productos-lista">
             {items.map((p, idx) => (
               <li className="producto-row" key={p.id}>
-                <div className="producto-textos">
-                  <div className="producto-linea">
-                    <strong>{p.id}</strong> &nbsp;-&nbsp; {p.nombre}
-                  </div>
-                  <div className="producto-precio">
-                    {p.precio.toLocaleString("es-CL")} CLP
-                  </div>
+                {/* Imagen */}
+                <div className="producto-imagen-wrapper">
+                  <img
+                    src={p.imagen}
+                    alt={p.nombre}
+                    className="producto-imagen"
+                  />
                 </div>
 
-                <button
-                  className="btn-agregar"
-                  onClick={() => agregarAlCarrito(p)}
-                  type="button"
-                >
-                  Agregar al Carrito
-                </button>
+                {/* Texto + botón */}
+                <div className="producto-contenido">
+                  <div className="producto-textos">
+                    <div className="producto-linea">
+                      <strong>{p.id}</strong> &nbsp;-&nbsp; {p.nombre}
+                    </div>
 
-                {/* separador entre productos, excepto el último */}
-                {idx !== items.length - 1 && <hr className="producto-divider" />}
+                    {p.descripcion && (
+                      <div className="producto-descripcion">
+                        {p.descripcion}
+                      </div>
+                    )}
+
+                    <div className="producto-precio">
+                      {p.precio.toLocaleString("es-CL")} CLP
+                    </div>
+                  </div>
+
+                  <button
+                    className="btn-agregar"
+                    onClick={() =>
+                      agregarAlCarrito({
+                        id: p.id,
+                        nombre: p.nombre,
+                        precio: p.precio,
+                      })
+                    }
+                    type="button"
+                  >
+                    Agregar al Carrito
+                  </button>
+                </div>
+
+                {idx !== items.length - 1 && (
+                  <hr className="producto-divider" />
+                )}
               </li>
             ))}
           </ul>
@@ -75,15 +136,4 @@ function Catalogo() {
   );
 }
 
-export default Catalogo;
-
-
-
-
-
-
-
-
-
-
-/* cambiar el catalogo por el mismo que tengo en html */
+export default Catalogoconapi;

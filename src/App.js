@@ -5,14 +5,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+// Recetas (si las sigues usando)
 import RecetaEnamorados from "./Recetas/RecetaEnamorados";
 import RecetaChocolate from "./Recetas/RecetaChocolate";
 import RecetaPremium from "./Recetas/RecetaPremium";
 
-import Registrarse from "./Paginas/Registrarse";
-import Catalogo from "./Paginas/Catalogo";
+
+import Catalogo from "./Paginas/Catalogo";      // 👈 solo UNA vez
 import Home from "./Paginas/Home";
-import Catalogoconapi from "./Paginas/catalogoconapi";
 import Carrito from "./Paginas/Carrito";
 
 // páginas admin
@@ -38,9 +38,13 @@ function App() {
           <Routes>
             {/* RUTAS PÚBLICAS */}
             <Route path="/" element={<Home />} />
-            <Route path="/registrarse" element={<Registrarse />} />
-            <Route path="/catalogo" element={<Catalogo />} />
-            <Route path="/catalogo-api" element={<Catalogoconapi />} />
+
+            {/* Si ya NO quieres el catálogo estático, puedes comentar /catalogo */}
+            {/* <Route path="/catalogo" element={<Catalogo />} /> */}
+
+            {/* Catálogo que consume la API */}
+            <Route path="/catalogo-api" element={<Catalogo />} />
+
             <Route path="/carrito" element={<Carrito />} />
             <Route path="/receta-enamorados" element={<RecetaEnamorados />} />
             <Route path="/receta-chocolate" element={<RecetaChocolate />} />
@@ -58,18 +62,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* Si quisieras una URL extra para lo mismo: */}
-            {/*
-            <Route
-              path="/admin/productos"
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            */}
 
             {/* 404 simple */}
             <Route path="*" element={<p>Página no encontrada</p>} />
