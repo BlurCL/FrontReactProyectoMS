@@ -3,14 +3,13 @@ import React, { useEffect, useState } from "react";
 import { getProductos } from "../api/productosApi";
 import "../styles/Catalogo.css";
 
-// 🖼 Importa desde src/img (como se ve en tu screenshot)
 import imgTortaChocolate from "../img/torta-chocolate.jpg";
 import imgTortaPina from "../img/torta-pina.jpg";
 import imgTortaMilhojas from "../img/torta-milhojas.jpg";
 import imgTortaFrutillas from "../img/torta-frutillas.jpg";
-
-// Usa una de las que ya tienes como “por defecto”
 import imgDefault from "../img/torta1.jpg";
+
+import { useCarrito } from "../context/CarritoContext";   // ✅ nuevo import
 
 // 🧭 Mapa ID → Nombre de categoría
 const CATEGORIAS_POR_ID = {
@@ -30,6 +29,8 @@ function Catalogoconapi() {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+
+  const { agregarAlCarrito } = useCarrito();            // ✅ usamos el contexto
 
   useEffect(() => {
     async function cargarProductos() {
@@ -69,10 +70,6 @@ function Catalogoconapi() {
     (acc[p.categoria] = acc[p.categoria] || []).push(p);
     return acc;
   }, {});
-
-  const agregarAlCarrito = (p) => {
-    alert(`Agregado: ${p.nombre}`);
-  };
 
   return (
     <div className="catalogo-wrapper">
@@ -114,7 +111,13 @@ function Catalogoconapi() {
 
                   <button
                     className="btn-agregar"
-                    onClick={() => agregarAlCarrito(p)}
+                    onClick={() =>
+                      agregarAlCarrito({
+                        id: p.id,
+                        nombre: p.nombre,
+                        precio: p.precio,
+                      })
+                    }
                     type="button"
                   >
                     Agregar al Carrito
