@@ -73,7 +73,7 @@ function Catalogoconapi() {
 
   return (
     <div className="catalogo-wrapper">
-      <h2 className="catalogo-titulo">Catálogo de productos (con API)</h2>
+      <h2 className="catalogo-titulo">Catálogo de productos</h2>
 
       {Object.entries(agrupado).map(([categoria, items]) => (
         <section className="categoria-card" key={categoria}>

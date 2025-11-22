@@ -16,7 +16,7 @@ function Home() {
           Pastelería artesanal con ingredientes frescos, diseños únicos y el
           sabor que endulza tus momentos.
         </p>
-        <a className="btn-catalogo" href="/catalogo">
+        <a className="btn-catalogo" href="/catalogo-api">
           Ver Catálogo
         </a>
         <></>
