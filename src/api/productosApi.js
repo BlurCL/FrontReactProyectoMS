@@ -1,4 +1,3 @@
-// src/api/productosApi.js
 import { API_BASE_URL } from "./config";
 
 // 👉 Obtener productos

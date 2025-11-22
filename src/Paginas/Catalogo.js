@@ -1,4 +1,3 @@
-// src/Paginas/catalogoconapi.js
 import React, { useEffect, useState } from "react";
 import { getProductos } from "../api/productosApi";
 import "../styles/Catalogo.css";

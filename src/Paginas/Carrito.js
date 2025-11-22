@@ -1,4 +1,3 @@
-// src/Paginas/Carrito.js
 import React, { useState } from "react";
 import { useCarrito } from "../context/CarritoContext";
 import { crearPedido } from "../api/orderApi";

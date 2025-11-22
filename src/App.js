@@ -1,25 +1,15 @@
-// src/App.js
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
-// Recetas (si las sigues usando)
 import RecetaEnamorados from "./Recetas/RecetaEnamorados";
 import RecetaChocolate from "./Recetas/RecetaChocolate";
 import RecetaPremium from "./Recetas/RecetaPremium";
-
-
-import Catalogo from "./Paginas/Catalogo";      // 👈 solo UNA vez
+import Catalogo from "./Paginas/Catalogo";     
 import Home from "./Paginas/Home";
 import Carrito from "./Paginas/Carrito";
-
-// páginas admin
 import AdminLogin from "./Paginas/AdminLogin";
 import AdminDashboard from "./Paginas/AdminDashboard";
-
-// contextos
 import { CarritoProvider } from "./context/CarritoContext";
 import { AuthProvider } from "./context/AuthContext";
 

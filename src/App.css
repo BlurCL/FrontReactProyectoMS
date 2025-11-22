@@ -1,4 +1,3 @@
-/* 🎨 Fondo general */
 body {
   background-color: #f5f0e6 !important; /* beige claro */
   color: #333;
@@ -6,9 +5,8 @@ body {
   margin: 0;
 }
 
-/* 🟧 Navbar personalizado */
 .navbar-custom {
-  background-color: #8B4513 !important; /* naranjo */
+  background-color: #8B4513 !important;
 }
 
 .navbar-custom .navbar-brand,
@@ -18,12 +16,12 @@ body {
   transition: color 0.3s ease;
 }
 
-/* Hover efecto suave */
+
 .navbar-custom .nav-link:hover {
-  color: #222 !important; /* casi negro al pasar el mouse */
+  color: #222 !important;
 }
 
-/* Título principal */
+
 h1 {
   color: #ff7b00;
   font-weight: bold;

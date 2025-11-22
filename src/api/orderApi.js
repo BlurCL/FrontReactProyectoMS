@@ -1,5 +1,3 @@
-// src/api/orderApi.js
-
 const ORDER_API_BASE = "http://localhost:8081/api/pedidos"; // ms-order
 
 export async function crearPedido(carrito) {

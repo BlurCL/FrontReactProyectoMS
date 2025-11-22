@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/Home.css";
 import torta1 from "../img/torta1.jpg";
 import torta22 from "../img/torta22.jpg";

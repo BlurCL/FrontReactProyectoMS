@@ -1,5 +1,3 @@
-// src/api/authApi.js
-
 const AUTH_BASE_URL = "http://localhost:8083/api/auth";
 
 /**

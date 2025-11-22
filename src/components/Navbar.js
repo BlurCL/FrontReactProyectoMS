@@ -1,5 +1,3 @@
-// src/components/Navbar.js
-import React from "react";
 import { Link } from "react-router-dom";
 import { useCarrito } from "../context/CarritoContext";
 
@@ -40,14 +38,14 @@ function Navbar() {
               </Link>
             </li>
 
-            {/* Carrito con cantidad */}
+            {/* Carrito */}
             <li className="nav-item">
               <Link className="nav-link" to="/carrito">
                 Carrito {cantidadTotal > 0 && `(${cantidadTotal})`}
               </Link>
             </li>
 
-            {/* 👇 Nuevo acceso privado para funcionarios */}
+            {/* acceso privado para funcionarios */}
             <li className="nav-item">
               <Link className="nav-link" to="/admin/login">
                 Acceso funcionario
