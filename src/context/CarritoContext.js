@@ -1,3 +1,4 @@
+// src/context/CarritoContext.js
 import React, { createContext, useContext, useState } from "react";
 
 const CarritoContext = createContext();
@@ -23,11 +24,19 @@ export const CarritoProvider = ({ children }) => {
     });
   };
 
-  const eliminarDelCarrito = (id) => {
+  // 👇 quitamos un producto por id (nombre que usa Carrito.js)
+  const quitarDelCarrito = (id) => {
     setItems((prev) => prev.filter((it) => it.id !== id));
   };
 
-  const vaciarCarrito = () => setItems([]);
+  // alias con el nombre antiguo por si lo usas en otro lado
+  const eliminarDelCarrito = quitarDelCarrito;
+
+  // 👇 limpiamos todo el carrito (nombre que usa Carrito.js)
+  const limpiarCarrito = () => setItems([]);
+
+  // alias con el nombre antiguo
+  const vaciarCarrito = limpiarCarrito;
 
   const total = items.reduce(
     (acc, it) => acc + it.precio * it.cantidad,
@@ -37,7 +46,9 @@ export const CarritoProvider = ({ children }) => {
   const value = {
     items,
     agregarAlCarrito,
+    quitarDelCarrito,
     eliminarDelCarrito,
+    limpiarCarrito,
     vaciarCarrito,
     total,
   };

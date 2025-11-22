@@ -13,30 +13,62 @@ export async function crearPedido(carrito) {
     })),
   };
 
-  const resp = await fetch(ORDER_API_BASE, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  let resp;
+  try {
+    resp = await fetch(ORDER_API_BASE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch (e) {
+    console.error("❌ Error de red al llamar a ms-order:", e);
+    throw new Error("No se pudo conectar con el servicio de pedidos.");
+  }
+
+  const rawBody = await resp.text();
+  console.log("🔎 Respuesta de /api/pedidos (POST):", resp.status, rawBody);
 
   if (!resp.ok) {
     throw new Error(`Error al crear pedido: ${resp.status}`);
   }
 
-  return await resp.json();
+  if (!rawBody) return {};
+
+  try {
+    return JSON.parse(rawBody);
+  } catch (e) {
+    console.warn("⚠️ La respuesta de crearPedido no es JSON válido:", rawBody);
+    return {};
+  }
 }
 
-// 🔹 NUEVO: obtener todos los pedidos (para el panel admin)
+// 🔹 obtener todos los pedidos (para AdminDashboard)
 export async function getPedidos() {
-  const resp = await fetch(ORDER_API_BASE, {
-    method: "GET",
-  });
+  let resp;
+  try {
+    resp = await fetch(ORDER_API_BASE, {
+      method: "GET",
+    });
+  } catch (e) {
+    console.error("❌ Error de red al obtener pedidos:", e);
+    throw new Error("No se pudo conectar con el servicio de pedidos.");
+  }
+
+  const rawBody = await resp.text();
+  console.log("🔎 Respuesta de /api/pedidos (GET):", resp.status, rawBody);
 
   if (!resp.ok) {
     throw new Error(`Error al obtener pedidos: ${resp.status}`);
   }
 
-  return await resp.json(); // lista de pedidos con sus detalles
+  if (!rawBody) return [];
+
+  try {
+    return JSON.parse(rawBody);
+  } catch (e) {
+    console.warn("⚠️ La respuesta de getPedidos no es JSON válido:", rawBody);
+    return [];
+  }
 }

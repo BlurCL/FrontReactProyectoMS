@@ -1,4 +1,3 @@
-// src/Paginas/AdminDashboard.js
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { crearProducto } from "../api/productosApi";
