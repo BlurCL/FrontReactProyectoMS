@@ -6,8 +6,7 @@ import { getPedidos } from "../api/orderApi";
 function AdminDashboard() {
   const { user } = useAuth();
 
-  // Form producto
-  const [codigo, setCodigo] = useState("");
+  // Form producto (sin código)
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState("");
@@ -23,20 +22,17 @@ function AdminDashboard() {
     setMsgProducto("");
 
     try {
-      const nuevo = {
-        codigoProducto: codigo,
-        nombreProducto: nombre,
-        descripcionProducto: descripcion,
-        precioProducto: Number(precio),
-        categoriaId: categoriaId ? Number(categoriaId) : null,
-      };
-
-      await crearProducto(nuevo);
+      // 👇 solo los campos que usa el backend
+      await crearProducto({
+        nombre,
+        descripcion,
+        precio,
+        categoriaId,
+      });
 
       setMsgProducto("✅ Producto creado correctamente");
 
       // limpiar form
-      setCodigo("");
       setNombre("");
       setDescripcion("");
       setPrecio("");
@@ -93,8 +89,7 @@ function AdminDashboard() {
       <h2 className="catalogo-titulo">Panel administrador</h2>
 
       <p>
-        Bienvenido{" "}
-        <strong>{user?.email || "Administrador"}</strong>
+        Bienvenido <strong>{user?.email || "Administrador"}</strong>
       </p>
 
       {/* Crear producto */}
@@ -116,16 +111,6 @@ function AdminDashboard() {
         )}
 
         <form onSubmit={handleCrearProducto}>
-          <div className="mb-2">
-            <label className="form-label">Código</label>
-            <input
-              className="form-control"
-              value={codigo}
-              onChange={(e) => setCodigo(e.target.value)}
-              required
-            />
-          </div>
-
           <div className="mb-2">
             <label className="form-label">Nombre</label>
             <input
@@ -191,9 +176,7 @@ function AdminDashboard() {
 
         {errorTop && <p>{errorTop}</p>}
 
-        {!errorTop && !topProducto && (
-          <p>No hay datos suficientes aún.</p>
-        )}
+        {!errorTop && !topProducto && <p>No hay datos suficientes aún.</p>}
 
         {topProducto && (
           <div style={{ marginTop: "8px" }}>
