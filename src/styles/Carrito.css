@@ -1,0 +1,43 @@
+.carrito-success {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #fff3cd; 
+  border: 1px solid #ffeeba;
+}
+.carrito-success-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.carrito-success-icon {
+  margin-right: 8px;
+}
+.carrito-success-body div {
+  margin-bottom: 2px;
+}
+
+
+.carrito-error {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: #ffebee;
+  border: 1px solid #ef5350;
+}
+
+
+.carrito-total {
+  margin-top: 16px;
+  font-weight: bold;
+}
+
+
+.carrito-btn-confirmar {
+  margin-top: 12px;
+  width: 100%;
+}

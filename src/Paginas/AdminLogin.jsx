@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "../styles/AdminLogin.css"; 
 
 function AdminLogin() {
   const { login } = useAuth();
@@ -17,8 +18,8 @@ function AdminLogin() {
     setCargando(true);
 
     try {
-      await login(email, password);      // llama a ms-user
-      navigate("/admin");               // si sale bien, al panel admin
+      await login(email, password);
+      navigate("/admin"); // éxito → dashboard
     } catch (err) {
       console.error(err);
       setError("Credenciales inválidas o error en el servidor");
@@ -28,30 +29,21 @@ function AdminLogin() {
   };
 
   return (
-    <div className="catalogo-wrapper">
-      <h2 className="catalogo-titulo">Login administrador</h2>
+    <div className="login-wrapper">
+      <h2 className="login-title">Login administrador</h2>
 
       {error && (
-        <div
-          style={{
-            marginBottom: "12px",
-            padding: "8px 12px",
-            borderRadius: "6px",
-            backgroundColor: "#f8d7da",
-            color: "#721c24",
-            border: "1px solid #f5c6cb",
-          }}
-        >
+        <div className="login-error">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} style={{ maxWidth: "400px" }}>
-        <div className="mb-3">
-          <label className="form-label">Correo</label>
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="login-input-group">
+          <label className="login-label">Correo</label>
           <input
             type="email"
-            className="form-control"
+            className="login-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -59,11 +51,11 @@ function AdminLogin() {
           />
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Contraseña</label>
+        <div className="login-input-group">
+          <label className="login-label">Contraseña</label>
           <input
             type="password"
-            className="form-control"
+            className="login-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -71,12 +63,7 @@ function AdminLogin() {
           />
         </div>
 
-        <button
-          type="submit"
-          className="btn-agregar"
-          disabled={cargando}
-          style={{ width: "100%" }}
-        >
+        <button type="submit" className="login-btn" disabled={cargando}>
           {cargando ? "Ingresando..." : "Ingresar"}
         </button>
       </form>
@@ -85,3 +72,5 @@ function AdminLogin() {
 }
 
 export default AdminLogin;
+
+

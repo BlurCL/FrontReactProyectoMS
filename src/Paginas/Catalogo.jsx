@@ -8,15 +8,14 @@ import imgTortaMilhojas from "../img/torta-milhojas.jpg";
 import imgTortaFrutillas from "../img/torta-frutillas.jpg";
 import imgDefault from "../img/torta1.jpg";
 
-import { useCarrito } from "../context/CarritoContext";   // ✅ nuevo import
+import { useCarrito } from "../context/CarritoContext";
 
-// 🧭 Mapa ID → Nombre de categoría
 const CATEGORIAS_POR_ID = {
   7: "Tortas Cuadradas",
   8: "Tortas Circulares",
 };
 
-// 🖼 Mapa ID producto → imagen
+// Mapa ID → imágenes
 const IMAGENES_POR_ID = {
   "202": imgTortaChocolate,
   "203": imgTortaPina,
@@ -24,12 +23,12 @@ const IMAGENES_POR_ID = {
   "205": imgTortaFrutillas,
 };
 
-function Catalogoconapi() {
+function Catalogo() {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
-  const { agregarAlCarrito } = useCarrito();            // ✅ usamos el contexto
+  const { agregarAlCarrito } = useCarrito();
 
   useEffect(() => {
     async function cargarProductos() {
@@ -63,7 +62,7 @@ function Catalogoconapi() {
   }, []);
 
   if (cargando) return <p>Cargando productos...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (error) return <p className="catalogo-error">{error}</p>;
 
   const agrupado = productos.reduce((acc, p) => {
     (acc[p.categoria] = acc[p.categoria] || []).push(p);
@@ -79,9 +78,8 @@ function Catalogoconapi() {
           <header className="categoria-header">{categoria}</header>
 
           <ul className="productos-lista">
-            {items.map((p, idx) => (
+            {items.map((p, index) => (
               <li className="producto-row" key={p.id}>
-                {/* Imagen */}
                 <div className="producto-imagen-wrapper">
                   <img
                     src={p.imagen}
@@ -90,7 +88,6 @@ function Catalogoconapi() {
                   />
                 </div>
 
-                {/* Texto + botón */}
                 <div className="producto-contenido">
                   <div className="producto-textos">
                     <div className="producto-linea">
@@ -100,39 +97,23 @@ function Catalogoconapi() {
                     {p.descripcion && (
                       <div className="producto-descripcion">
                         {p.descripcion}
-                      </div>
-                    )}
-
-                    <div className="producto-precio">
+                      </div>)}
+                      <div className="producto-precio">
                       {p.precio.toLocaleString("es-CL")} CLP
-                    </div>
-                  </div>
+                    </div></div>
 
                   <button
                     className="btn-agregar"
-                    onClick={() =>
-                      agregarAlCarrito({
-                        id: p.id,
-                        nombre: p.nombre,
-                        precio: p.precio,
-                      })
-                    }
                     type="button"
-                  >
+                    onClick={() =>
+                      agregarAlCarrito({id: p.id, nombre: p.nombre,precio: p.precio,})}>
                     Agregar al Carrito
-                  </button>
-                </div>
+                  </button></div>
 
-                {idx !== items.length - 1 && (
-                  <hr className="producto-divider" />
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </div>
+                {index !== items.length - 1 && (
+                  <hr className="producto-divider" />)}</li>))}</ul>
+                </section>))}</div>
   );
 }
 
-export default Catalogoconapi;
+export default Catalogo;

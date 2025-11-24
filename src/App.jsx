@@ -1,3 +1,5 @@
+// App.jsx
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
@@ -5,7 +7,7 @@ import Footer from "./components/Footer";
 import RecetaEnamorados from "./Recetas/RecetaEnamorados";
 import RecetaChocolate from "./Recetas/RecetaChocolate";
 import RecetaPremium from "./Recetas/RecetaPremium";
-import Catalogo from "./Paginas/Catalogo";     
+import Catalogo from "./Paginas/Catalogo";
 import Home from "./Paginas/Home";
 import Carrito from "./Paginas/Carrito";
 import AdminLogin from "./Paginas/AdminLogin";
@@ -28,9 +30,6 @@ function App() {
           <Routes>
             {/* RUTAS PÚBLICAS */}
             <Route path="/" element={<Home />} />
-
-            {/* Si ya NO quieres el catálogo estático, puedes comentar /catalogo */}
-            {/* <Route path="/catalogo" element={<Catalogo />} /> */}
 
             {/* Catálogo que consume la API */}
             <Route path="/catalogo-api" element={<Catalogo />} />

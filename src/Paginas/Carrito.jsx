@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useCarrito } from "../context/CarritoContext";
 import { crearPedido } from "../api/orderApi";
+import "../styles/Catalogo.css"; 
 
 function Carrito() {
   const { items, quitarDelCarrito, limpiarCarrito } = useCarrito();
 
   // estado del envío del pedido
-  const [estadoEnvio, setEstadoEnvio] = useState("idle"); // idle | enviando | ok | error
-  const [mensajePedido, setMensajePedido] = useState("");  // lo usamos para errores
+  const [estadoEnvio, setEstadoEnvio] = useState("idle"); 
+  const [mensajePedido, setMensajePedido] = useState(""); // se usa para errores
   const [ultimoPedidoId, setUltimoPedidoId] = useState(null);
-  const [resumenPedido, setResumenPedido] = useState(null); // {subtotal, iva, total}
+  const [resumenPedido, setResumenPedido] = useState(null); // subtotal, iva, total
 
   const totalCarrito = items.reduce(
     (acc, it) => acc + it.precio * it.cantidad,
@@ -60,30 +61,14 @@ function Carrito() {
 
       {/* Mensaje de éxito con resumen */}
       {estadoEnvio === "ok" && ultimoPedidoId && (
-        <div
-          style={{
-            marginBottom: "16px",
-            padding: "12px 16px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            backgroundColor: "#fff3cd", // amarillo suave
-            border: "1px solid #ffeeba",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "8px",
-              fontWeight: "bold",
-            }}
-          >
-            <span style={{ marginRight: "8px" }}>✅</span>
+        <div className="carrito-success">
+          <div className="carrito-success-header">
+            <span className="carrito-success-icon">✅</span>
             <span>Pedido creado con ID {ultimoPedidoId}</span>
           </div>
 
           {resumenPedido && (
-            <div>
+            <div className="carrito-success-body">
               <div>
                 <strong>Subtotal:</strong>{" "}
                 {resumenPedido.subtotal.toLocaleString("es-CL")} CLP
@@ -103,16 +88,7 @@ function Carrito() {
 
       {/* Mensaje de error */}
       {estadoEnvio === "error" && mensajePedido && (
-        <div
-          style={{
-            marginBottom: "12px",
-            padding: "8px 12px",
-            borderRadius: "6px",
-            fontSize: "0.9rem",
-            backgroundColor: "#ffebee",
-            border: "1px solid #ef5350",
-          }}
-        >
+        <div className="carrito-error">
           {mensajePedido}
         </div>
       )}
@@ -129,8 +105,7 @@ function Carrito() {
                   <div>Cantidad: {item.cantidad}</div>
                   <div>
                     Subtotal:{" "}
-                    {(item.precio * item.cantidad).toLocaleString("es-CL")}{" "}
-                    CLP
+                    {(item.precio * item.cantidad).toLocaleString("es-CL")} CLP
                   </div>
                 </div>
 
@@ -145,14 +120,13 @@ function Carrito() {
             ))}
           </ul>
 
-          <div style={{ marginTop: "16px", fontWeight: "bold" }}>
+          <div className="carrito-total">
             Total: {totalCarrito.toLocaleString("es-CL")} CLP
           </div>
 
           <button
             type="button"
-            className="btn-agregar"
-            style={{ marginTop: "12px", width: "100%" }}
+            className="btn-agregar carrito-btn-confirmar"
             onClick={handleConfirmarPedido}
             disabled={estadoEnvio === "enviando"}
           >
