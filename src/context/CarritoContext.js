@@ -2,10 +2,9 @@ import React, { createContext, useContext, useState } from "react";
 
 const CarritoContext = createContext();
 
-// 👇 hook para usar el contexto en cualquier componente
 export const useCarrito = () => useContext(CarritoContext);
 
-// 👇 provider que envuelve la app
+
 export const CarritoProvider = ({ children }) => {
   const [items, setItems] = useState([]);
 
@@ -23,18 +22,15 @@ export const CarritoProvider = ({ children }) => {
     });
   };
 
-  // 👇 quitamos un producto por id (nombre que usa Carrito.js)
   const quitarDelCarrito = (id) => {
     setItems((prev) => prev.filter((it) => it.id !== id));
   };
 
-  // alias con el nombre antiguo por si lo usas en otro lado
+
   const eliminarDelCarrito = quitarDelCarrito;
 
-  // 👇 limpiamos todo el carrito (nombre que usa Carrito.js)
   const limpiarCarrito = () => setItems([]);
 
-  // alias con el nombre antiguo
   const vaciarCarrito = limpiarCarrito;
 
   const total = items.reduce(
@@ -59,5 +55,5 @@ export const CarritoProvider = ({ children }) => {
   );
 };
 
-// opcional: también lo exportamos como default por si acaso
+
 export default CarritoProvider;
