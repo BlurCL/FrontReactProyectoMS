@@ -1,21 +1,25 @@
-/* Contenedor general */
 .catalogo-wrapper {
   max-width: 900px;
   margin: 32px auto;
   padding: 0 12px;
 }
 
-/* Título de página */
+
 .catalogo-titulo {
   text-align: left;
   margin: 0 0 20px 0;
   font-size: 24px;
 }
 
-/* Tarjeta por categoría */
+.catalogo-error {
+  color: #d9534f;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 16px;
+}
 .categoria-card {
-  background: #fffaf3;                  /* crema suave similar a la referencia */
-  border: 2px solid #c58a3b;            /* borde café claro */
+  background: #fffaf3;                 
+  border: 2px solid #c58a3b;          
   border-radius: 8px;
   padding: 10px 12px;
   margin-bottom: 18px;
@@ -24,13 +28,11 @@
 .categoria-header {
   font-weight: 700;
   font-size: 18px;
-  color: #4a2b0b;                        /* café más oscuro */
-  border-bottom: 2px solid #e2c59b;      /* franja superior/inferior */
+  color: #4a2b0b;                        
+  border-bottom: 2px solid #e2c59b;      
   padding: 8px 2px;
   margin-bottom: 8px;
 }
-
-/* Lista de productos dentro de la tarjeta */
 .productos-lista {
   list-style: none;
   margin: 0;
@@ -38,7 +40,7 @@
 }
 
 .producto-row {
-  padding: 8px 2px 14px 2px;             /* espacio extra bajo para el botón */
+  padding: 8px 2px 14px 2px;            
   position: relative;
 }
 
@@ -53,17 +55,15 @@
 
 .producto-precio {
   font-size: 12px;
-  color: #6b6b6b;                        /* gris suave como “subtítulo” */
+  color: #6b6b6b;                      
   margin-top: 2px;
 }
-
-/* Botón “Agregar al Carrito” similar al de la captura */
 .btn-agregar {
   display: inline-block;
   font-size: 13px;
   font-weight: 700;
   border: 1px solid #8b2d0d;
-  background: #d1490b;                   /* naranjo-marrón */
+  background: #d1490b;   
   color: #fff;
   padding: 6px 10px;
   border-radius: 6px;
@@ -73,15 +73,13 @@
 .btn-agregar:hover {
   filter: brightness(0.95);
 }
-
-/* Separador entre productos dentro de la misma categoría */
 .producto-divider {
   border: none;
-  border-top: 2px solid #f0d8b6;         /* línea clara */
+  border-top: 2px solid #f0d8b6;      
   margin: 12px 0 0 0;
 }
 
-/* Responsive */
+/* Responsivoo */
 @media (max-width: 640px) {
   .categoria-card {
     padding: 10px;
@@ -93,5 +91,50 @@
     width: 100%;
     text-align: center;
     margin-top: 6px;
+  }
+}
+.producto-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 24px;
+}
+.producto-imagen-wrapper {
+  flex: 0 0 140px;             
+}
+.producto-imagen {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+.producto-contenido {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.producto-descripcion {
+  font-size: 0.9rem;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+@media (max-width: 600px) {
+  .producto-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .producto-imagen-wrapper {
+    flex: 0 0 auto;
+  }
+
+  .producto-imagen {
+    width: 100%;
+    height: auto;
+    max-height: 220px;
   }
 }
