@@ -1,0 +1,65 @@
+.logout-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: #ffffff;
+  color: #8a4b2b;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.05s ease;
+}
+
+.logout-pill:hover {
+  background: #ffe4c7;
+  color: #5a3017;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+}
+
+.logout-pill:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.logout-user {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logout-separator {
+  opacity: 0.5;
+}
+
+.logout-text {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .logout-user {
+    display: none; /* en móvil sólo mostramos “Cerrar sesión” */
+  }
+
+  .logout-separator {
+    display: none;
+  }
+
+  .logout-pill {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+  }
+}

@@ -5,26 +5,28 @@ import { useAuth } from "../context/AuthContext";
 /**
  * Ruta protegida:
  * - Si NO hay token → redirige a /admin/login
- * - Modo legacy (sin props): sólo admin, como antes
- * - Si pasas requiredRole → valida ese rol exacto (TRABAJADOR, ADMINISTRADOR, etc.)
+ * - Sin props: sólo ADMIN (comportamiento legacy)
+ * - Con requiredRole: valida ese rol exacto (por ej. "TRABAJADOR")
  */
 function ProtectedRoute({ children, requiredRole }) {
-  const { token, isAdmin, user } = useAuth();
+  // ⬇️ ESTA LÍNEA ES LA QUE FALTABA
+  const { token, user, isAdmin } = useAuth();
 
-  // No autenticado -> a login admin
+  // 1) No autenticado -> a login
   if (!token) {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // Si se especifica un rol requerido (nuevo comportamiento)
+  // 2) Si se especifica un rol requerido (ej: TRABAJADOR)
   if (requiredRole) {
     if (user?.rol !== requiredRole) {
+      // Tiene token, pero rol incorrecto → lo mando al home
       return <Navigate to="/" replace />;
     }
-    return children;
+    return children; // rol correcto
   }
 
-  // 🔙 Comportamiento anterior: sólo admin
+  // 3) Comportamiento anterior: sólo admin
   if (!isAdmin) {
     return <Navigate to="/" replace />;
   }

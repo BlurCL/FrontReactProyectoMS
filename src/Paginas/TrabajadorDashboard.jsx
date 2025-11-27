@@ -3,11 +3,21 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
   getPedidosActivos,
-  marcarPedidoPreparado,
   marcarPedidoEnviado,
 } from "../api/orderApi";
 
-import "../styles/AdminDashboard.css"; // reutilizamos estilos del admin
+function formatearFecha(fechaIso) {
+  if (!fechaIso) return "-";
+  const d = new Date(fechaIso);
+  if (Number.isNaN(d.getTime())) return fechaIso;
+  return d.toLocaleString("es-CL", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
 
 function TrabajadorDashboard() {
   const { user, token } = useAuth();
@@ -15,103 +25,107 @@ function TrabajadorDashboard() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
 
-  const cargarPedidos = async () => {
-    setCargando(true);
-    setError("");
-    try {
-      const data = await getPedidosActivos(token);
-      setPedidos(data);
-    } catch (e) {
-      console.error(e);
-      setError(e.message || "Error al cargar pedidos activos");
-    } finally {
-      setCargando(false);
-    }
-  };
-
+  // Cargar pedidos activos al entrar
   useEffect(() => {
+    const fetchPedidos = async () => {
+      setCargando(true);
+      setError("");
+      try {
+        const data = await getPedidosActivos(token);
+        setPedidos(data || []);
+      } catch (e) {
+        console.error(e);
+        setError("Error al obtener pedidos activos");
+      } finally {
+        setCargando(false);
+      }
+    };
+
     if (token) {
-      cargarPedidos();
+      fetchPedidos();
     }
   }, [token]);
 
-  const handlePreparado = async (idPedido) => {
-    try {
-      await marcarPedidoPreparado(idPedido, token);
-      await cargarPedidos(); // recargamos lista
-    } catch (e) {
-      alert(e.message || "No se pudo marcar como preparado");
-    }
-  };
-
-  const handleEnviado = async (idPedido) => {
+  const handleMarcarEnviado = async (idPedido) => {
     try {
       await marcarPedidoEnviado(idPedido, token);
-      await cargarPedidos();
+
+      // Actualizamos el estado local: cambiamos estadoPedido a ENVIADO
+      setPedidos((prev) =>
+        prev.map((p) =>
+          p.idPedido === idPedido ? { ...p, estadoPedido: "ENVIADO" } : p
+        )
+      );
     } catch (e) {
-      alert(e.message || "No se pudo marcar como enviado");
+      console.error(e);
+      alert("No se pudo marcar como enviado");
     }
   };
 
   return (
-    <div className="admin-container">
+    <div className="admin-layout">
       <h1 className="admin-title">Panel trabajador</h1>
-      <p className="admin-subtitle">
-        Bienvenido {user?.nombre} {user?.apellido} ({user?.rol})
+      <p>
+        Bienvenido {user?.nombre} ({user?.rol})
       </p>
 
-      {error && <div className="admin-error">{error}</div>}
+      <h2 className="admin-subtitle" style={{ marginTop: "2rem" }}>
+        Pedidos activos
+      </h2>
 
-      {cargando ? (
-        <p>Cargando pedidos...</p>
-      ) : pedidos.length === 0 ? (
+      {cargando && <p>Cargando pedidos...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {!cargando && pedidos.length === 0 && (
         <p>No hay pedidos activos por ahora.</p>
-      ) : (
-        <div className="admin-card">
-          <h2 className="admin-card-title">Pedidos activos</h2>
+      )}
 
+      {pedidos.length > 0 && (
+        <div className="admin-table-wrapper">
           <table className="admin-table">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Fecha pedido</th>
-                <th>ID Usuario</th>
-                <th>Total</th>
+                <th>Productos</th>
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {pedidos.map((p) => (
-                <tr key={p.idPedido}>
-                  <td>{p.idPedido}</td>
-                  <td>{p.fechaPedido}</td>
-                  <td>{p.idUsuario}</td>
-                  <td>${p.totalPedido}</td>
-                  <td>{p.estadoPedido}</td>
-                  <td>
-                    {(p.estadoPedido === "CREADO" ||
-                      p.estadoPedido === "FACTURADO") && (
-                      <button
-                        className="btn-small btn-primary"
-                        onClick={() => handlePreparado(p.idPedido)}
-                      >
-                        Marcar preparado
-                      </button>
-                    )}
+              {pedidos.map((p) => {
+                const nombresProductos = (p.detalles || [])
+                  .map((d) => d.nombreProducto)
+                  .join(", ");
 
-                    {p.estadoPedido === "PREPARADO" && (
-                      <button
-                        className="btn-small btn-secondary"
-                        onClick={() => handleEnviado(p.idPedido)}
-                        style={{ marginLeft: "8px" }}
-                      >
-                        Marcar enviado
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
+                const estado = p.estadoPedido || "-";
+                const esFacturado = estado === "FACTURADO";
+                const esEnviado = estado === "ENVIADO";
+
+                return (
+                  <tr key={p.idPedido}>
+                    <td>{p.idPedido}</td>
+                    <td>{formatearFecha(p.fechaPedido)}</td>
+                    <td>{nombresProductos || "-"}</td>
+                    <td>{estado}</td>
+                    <td>
+                      {esEnviado ? (
+                        <span className="estado-texto-ok">Enviado</span>
+                      ) : esFacturado ? (
+                        <button
+                          type="button"
+                          className="btn-small btn-primary"
+                          onClick={() => handleMarcarEnviado(p.idPedido)}
+                        >
+                          Marcar enviado
+                        </button>
+                      ) : (
+                        <span className="texto-mutedo">Pendiente</span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

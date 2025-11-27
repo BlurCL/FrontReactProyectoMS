@@ -2,16 +2,23 @@
 import axios from "axios";
 import { API_BASE_URL } from "./config";
 
-// Cliente axios apuntando al API Gateway
 const apiClient = axios.create({
-  baseURL: API_BASE_URL, // "http://localhost:8080"
+  baseURL: API_BASE_URL,
 });
 
-// Interceptor para agregar el token JWT si existe
+// 👇 interceptor: mete el JWT en Authorization si existe en localStorage
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  try {
+    const raw = localStorage.getItem("auth_pasteleria");
+    if (raw) {
+      const { token } = JSON.parse(raw);
+      if (token) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+  } catch {
+    // si falla el parseo, seguimos sin romper nada
   }
   return config;
 });

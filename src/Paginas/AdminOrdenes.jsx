@@ -1,12 +1,15 @@
 // src/Paginas/AdminOrdenes.jsx
 import React, { useEffect, useState } from "react";
 import apiClient from "../api/apiClient";
+import { useAuth } from "../context/AuthContext";   // 👈 NUEVO
 import "../styles/AdminProductos.css"; // reutilizamos estilos del panel
 
 const API_PEDIDOS = "/api/pedidos";
 const API_FACTURAS = "/api/facturas";
 
 export default function AdminOrdenes() {
+  const { token } = useAuth();                      // 👈 NUEVO: token JWT
+
   const [pedidos, setPedidos] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const [pedidoAbierto, setPedidoAbierto] = useState(null); // para ver detalles
@@ -14,13 +17,20 @@ export default function AdminOrdenes() {
 
   // ===== CARGA INICIAL =====
   useEffect(() => {
+    if (!token) return; // esperamos a tener token cargado
     cargarPedidos();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const cargarPedidos = async () => {
     try {
       setLoading(true);
-      const resp = await apiClient.get(API_PEDIDOS);
+
+      const resp = await apiClient.get(API_PEDIDOS, {
+        headers: {
+          Authorization: `Bearer ${token}`,        // 👈 AQUÍ EL TOKEN
+        },
+      });
 
       const data = Array.isArray(resp.data)
         ? resp.data
@@ -45,7 +55,15 @@ export default function AdminOrdenes() {
 
     try {
       setMensaje("");
-      await apiClient.post(`${API_FACTURAS}/emitir/${id}`);
+      await apiClient.post(
+        `${API_FACTURAS}/emitir/${id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,      // 👈 TAMBIÉN AQUÍ
+          },
+        }
+      );
       setMensaje(`Factura emitida para el pedido ${id}`);
       await cargarPedidos(); // el estado pasa a FACTURADO
     } catch (e) {

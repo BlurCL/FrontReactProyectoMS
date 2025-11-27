@@ -45,11 +45,22 @@ export async function crearPedido(carrito) {
   }
 }
 
-export async function getPedidos() {
+// src/api/orderApi.js
+export async function getPedidos(token) {
   let resp;
   try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    // 👇 IMPORTANTE: si hay token, lo mandamos
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     resp = await fetch(ORDER_API_BASE, {
       method: "GET",
+      headers,
     });
   } catch (e) {
     console.error("❌ Error de red al obtener pedidos:", e);
@@ -71,6 +82,8 @@ export async function getPedidos() {
     return [];
   }
 }
+
+
 
 // ✅ NUEVO: pedidos activos para el TRABAJADOR
 export async function getPedidosActivos(token) {

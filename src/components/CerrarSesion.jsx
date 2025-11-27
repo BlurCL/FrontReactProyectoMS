@@ -1,26 +1,27 @@
+// src/components/CerrarSesion.jsx
 import React from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import "../styles/CerrarSesion.css"; 
+import "../styles/CerrarSesion.css";
 
-export default function CerrarSesion() {
-  const { logout, token } = useAuth();
-  const navigate = useNavigate();
+function CerrarSesion() {
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
-    navigate("/admin/login"); 
   };
 
-
-  if (!token) return null;
+  // Si no hay usuario logueado, no mostramos nada
+  if (!user) return null;
 
   return (
-    <button
-      className="btn-cerrar-sesion" 
-      onClick={handleLogout}
-    >
-      Cerrar sesión
+    <button className="logout-pill" type="button" onClick={handleLogout}>
+      <span className="logout-user">
+        {user.nombre || user.email || "Usuario"}
+      </span>
+      <span className="logout-separator">|</span>
+      <span className="logout-text">Cerrar sesión</span>
     </button>
   );
 }
+
+export default CerrarSesion;

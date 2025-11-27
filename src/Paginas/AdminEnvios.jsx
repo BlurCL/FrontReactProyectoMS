@@ -17,13 +17,10 @@ export default function AdminEnvios() {
   const cargarEnvios = async () => {
     try {
       setLoading(true);
-      const resp = await apiClient.get(API_ENVIOS);
+      setMensaje("");
 
-      const data = Array.isArray(resp.data)
-        ? resp.data
-        : Array.isArray(resp.data.content)
-        ? resp.data.content
-        : Object.values(resp.data || {});
+      const resp = await apiClient.get(API_ENVIOS);
+      const data = Array.isArray(resp.data) ? resp.data : [];
 
       setEnvios(data);
     } catch (e) {
@@ -117,9 +114,7 @@ export default function AdminEnvios() {
                               Marcar enviado
                             </button>
                           ) : (
-                            <span className="estado-texto-ok">
-                              Enviado
-                            </span>
+                            <span className="estado-texto-ok">Enviado</span>
                           )}
                         </td>
                       </tr>

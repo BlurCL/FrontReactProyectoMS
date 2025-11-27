@@ -1,8 +1,7 @@
 // src/Paginas/AdminFacturas.jsx
 import React, { useEffect, useState } from "react";
 import apiClient from "../api/apiClient";
-import { API_BASE_URL } from "../api/config";
-import "../styles/AdminProductos.css"; // reutilizamos estilos del panel
+import "../styles/AdminProductos.css";
 
 const API_FACTURAS = "/api/facturas";
 
@@ -10,6 +9,7 @@ export default function AdminFacturas() {
   const [facturas, setFacturas] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
+  const [descargandoId, setDescargandoId] = useState(null);
 
   useEffect(() => {
     cargarFacturas();
@@ -18,6 +18,8 @@ export default function AdminFacturas() {
   const cargarFacturas = async () => {
     try {
       setLoading(true);
+      setMensaje("");
+
       const resp = await apiClient.get(API_FACTURAS);
 
       const data = Array.isArray(resp.data)
@@ -40,9 +42,27 @@ export default function AdminFacturas() {
     return fecha.replace("T", " ").substring(0, 19);
   };
 
-  const verPdf = (idFactura) => {
-    const url = `${API_BASE_URL}${API_FACTURAS}/${idFactura}/pdf`;
-    window.open(url, "_blank");
+  // 👉 Ahora el PDF se obtiene con apiClient (incluye Authorization)
+  const verPdf = async (idFactura) => {
+    try {
+      setDescargandoId(idFactura);
+      setMensaje("");
+
+      const resp = await apiClient.get(`${API_FACTURAS}/${idFactura}/pdf`, {
+        responseType: "blob", // importante para recibir el PDF
+      });
+
+      const blob = new Blob([resp.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+
+      // abre el PDF en una pestaña nueva
+      window.open(url, "_blank");
+    } catch (error) {
+      console.error("Error al abrir PDF de la factura", error);
+      setMensaje("No se pudo abrir el PDF de la factura.");
+    } finally {
+      setDescargandoId(null);
+    }
   };
 
   return (
@@ -97,8 +117,9 @@ export default function AdminFacturas() {
                           type="button"
                           className="btn-small btn-pdf"
                           onClick={() => verPdf(f.id)}
+                          disabled={descargandoId === f.id}
                         >
-                          Ver PDF
+                          {descargandoId === f.id ? "Abriendo..." : "Ver PDF"}
                         </button>
                       </td>
                     </tr>
