@@ -1,3 +1,4 @@
+/* Paleta de colores suaves */
 :root {
   --bg: #fffdf8;
   --soft: #fff5e1;
@@ -6,69 +7,111 @@
   --text: #2b2b2b;
   --muted: #6b6b6b;
   --radius: 14px;
-  --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
 }
-.admin-container {
-  background: var(--bg);
-  min-height: 100vh;
-  padding: 40px 20px;
+
+/* CONTENEDOR PRINCIPAL SOLO PARA ESTE COMPONENTE */
+.admin-dashboard {
   font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  padding: 30px;
+  border-radius: var(--radius);
+  width: 90%;
+  max-width: 700px;
+  margin: 30px auto;
+  box-shadow: var(--shadow);
   text-align: center;
 }
-.admin-title {
-  font-size: clamp(26px, 4vw, 40px);
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 35px;
+
+.admin-dashboard h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
-/* Grid principal */
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 28px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-/* Tarjetas */
-.admin-card {
-  background: var(--soft);
-  padding: 30px 20px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.admin-card h2 {
+.admin-dashboard h4 {
+  margin-top: 30px;
+  color: var(--accent-strong);
   font-size: 22px;
-  margin-bottom: 12px;
+}
+
+.admin-dashboard p {
   color: var(--text);
 }
 
-.admin-card p {
-  color: var(--muted);
-  font-size: 15px;
-  margin-bottom: 20px;
+/* FORMULARIO */
+.admin-dashboard form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-top: 20px;
 }
 
-.admin-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+.admin-dashboard label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  width: 100%;
+  max-width: 350px;
+  text-align: left;
 }
 
-
-.admin-btn {
-  background: var(--accent);
-  border: none;
-  padding: 10px 20px;
+/* Inputs */
+.admin-dashboard input,
+.admin-dashboard textarea {
+  width: 100%;
+  max-width: 350px;
+  padding: 12px;
   border-radius: var(--radius);
-  color: white;
-  font-size: 15px;
-  cursor: pointer;
+  border: 1px solid var(--muted);
+  background: var(--soft);
   transition: var(--transition);
 }
 
-.admin-btn:hover {
+.admin-dashboard input:focus,
+.admin-dashboard textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 8px rgba(246, 182, 193, 0.4);
+}
+
+/* Botón */
+.admin-dashboard button {
+  background: var(--accent);
+  color: white;
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 16px;
+  transition: var(--transition);
+  margin-top: 10px;
+  box-shadow: var(--shadow);
+}
+
+.admin-dashboard button:hover {
   background: var(--accent-strong);
+  transform: translateY(-2px);
+}
+
+/* Secciones */
+.admin-dashboard section {
+  margin-top: 40px;
+  padding: 20px;
+  background: var(--soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Tarjeta producto más vendido */
+.admin-dashboard .top-card {
+  background: white;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.admin-dashboard strong {
+  color: var(--accent-strong);
 }

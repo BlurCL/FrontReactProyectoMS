@@ -1,0 +1,374 @@
+/* src/styles/AdminProductos.css */
+
+.admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header h2 {
+  margin: 0;
+}
+
+.admin-msg {
+  font-size: 0.9rem;
+  color: #9b4d1a;
+  background: #ffe5d0;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+}
+
+.admin-card {
+  background: #fffdf8;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.admin-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.admin-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-field.full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  resize: vertical;
+  min-height: 70px;
+  max-height: 180px;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #d7c9b3;
+  font-size: 0.9rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  background: #c75a11;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #c75a11;
+  border: 1px solid #c75a11;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-small {
+  border: none;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background: #f2f2f2;
+}
+
+.btn-small:hover {
+  background: #e0e0e0;
+}
+
+.btn-danger {
+  background: #e2614d;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c34835;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid #f0e4d4;
+  vertical-align: top;
+}
+
+.admin-table thead {
+  background: #fff0db;
+}
+
+.admin-table th {
+  text-align: left;
+  font-weight: 600;
+}
+
+.admin-table tbody tr:hover {
+  background: #fff7ec;
+}
+
+.admin-table .acciones {
+  white-space: nowrap;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.empty-row {
+  text-align: center;
+  color: #999;
+}
+.admin-form-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-message {
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #8a5a1f;
+}
+
+/* ===== LAYOUT GENERAL DEL PANEL ADMIN ===== */
+
+.admin-layout {
+  padding: 1.5rem 3rem;
+}
+
+.admin-title {
+  font-size: 2.1rem;
+  margin: 0 0 0.8rem 0;
+}
+
+/* Para que el contenido (productos, categorías, etc.) no quede tan ancho */
+.admin-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ===== PESTAÑAS DEL PANEL ===== */
+
+.admin-tabs {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  background: #fff7ec;
+  padding: 0.35rem;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.admin-tabs .tab {
+  border: none;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: transparent;
+  color: #7a4a28;
+}
+
+.admin-tabs .tab:hover {
+  background: #ffe3c2;
+}
+
+.admin-tabs .tab-activa {
+  background: #c75a11;
+  color: #fff;
+}
+
+.admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+/* ===== BADGES DE ESTADO ===== */
+
+.badge-estado {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-creado {
+  background: #fff0db;
+  color: #92400e;
+}
+
+.badge-facturado {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge-enviado {
+  background: #bfdbfe;
+  color: #1d4ed8;
+}
+
+/* por si algún día agregas otro */
+.badge-pendiente {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+/* botón suave para emitir factura */
+.btn-primary-soft {
+  background: #ffe3c2;
+  color: #7a3b17;
+}
+
+.btn-primary-soft:hover {
+  background: #ffd3a1;
+}
+
+/* ===== DETALLES DEL PEDIDO ===== */
+
+.fila-detalles td {
+  background: #fffaf3;
+}
+
+.detalles-pedido {
+  padding: 0.75rem 0.5rem;
+}
+
+.detalles-pedido h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.detalles-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.detalles-table th,
+.detalles-table td {
+  padding: 0.3rem 0.4rem;
+  border-bottom: 1px solid #f0e4d4;
+}
+/* ===== FACTURAS ===== */
+
+.admin-card-facturas {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.facturas-intro {
+  font-size: 0.9rem;
+  color: #6b4b32;
+  margin-bottom: 0.75rem;
+}
+
+.facturas-intro p {
+  margin: 0;
+}
+
+/* tabla de facturas */
+
+.facturas-table th:nth-child(4),
+.facturas-table td:nth-child(4) {
+  font-size: 0.85rem;
+}
+
+.facturas-table td.factura-numero {
+  font-weight: 600;
+}
+
+.facturas-table td.factura-total {
+  text-align: right;
+}
+
+/* botón PDF “chip” naranja */
+
+.btn-pdf {
+  background: #ffffff;
+  border: 1px solid #c75a11;
+  color: #c75a11;
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.btn-pdf:hover {
+  background: #c75a11;
+  color: #ffffff;
+}
+/* ===== ENVIOS ===== */
+
+.admin-card-envios {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.envios-intro {
+  font-size: 0.9rem;
+  color: #6b4b32;
+  margin-bottom: 0.75rem;
+}
+
+.envios-intro p {
+  margin: 0;
+}
+
+/* tabla de envíos */
+
+.envios-table td:nth-child(2),
+.envios-table td:nth-child(3) {
+  font-size: 0.85rem;
+}
+
+/* texto cuando ya está enviado */
+.estado-texto-ok {
+  font-size: 0.8rem;
+  color: #065f46;
+  font-weight: 600;
+}
