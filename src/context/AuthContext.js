@@ -1,3 +1,4 @@
+// src/context/AuthContext.js
 import { createContext, useContext, useState, useEffect } from "react";
 import { loginApi } from "../api/authApi";
 
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
       const authUser = {
         email: data.email || email,
-        rol: data.rol || data.role || "ADMINISTRADOR",
+        rol: data.rol || data.role || "ADMINISTRADOR", // ⚠️ el backend ahora envía rol correcto
         nombre: data.nombre || "",
         apellido: data.apellido || "",
       };
@@ -61,7 +62,7 @@ export const AuthProvider = ({ children }) => {
       setAuthState({ user: authUser, token: jwt });
       saveAuthToStorage(authUser, jwt);
 
-      return authUser;
+      return authUser; // 👈 IMPORTANTE para redirigir según rol
     } finally {
       setCargando(false);
     }
@@ -71,15 +72,23 @@ export const AuthProvider = ({ children }) => {
     setAuthState({ user: null, token: null });
     clearAuthFromStorage();
   };
+
   const isAdmin =
     user?.rol === "ADMINISTRADOR" ||
     user?.rol === "ADMIN" ||
     user?.rol === "admin";
 
+  // ✅ NUEVO: helper para trabajador
+  const isTrabajador =
+    user?.rol === "TRABAJADOR" ||
+    user?.rol === "trabajador" ||
+    user?.rol === "WORKER";
+
   const value = {
     user,
     token,
     isAdmin,
+    isTrabajador, // 👉 lo exponemos
     login,
     logout,
     cargando,
@@ -87,6 +96,5 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
 
 export const useAuth = () => useContext(AuthContext);

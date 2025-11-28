@@ -1,26 +1,36 @@
+// src/components/ProtectedRoute.jsx
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 /**
  * Ruta protegida:
  * - Si NO hay token → redirige a /admin/login
- * - Si hay token pero el rol no es admin → lo mando al home (puedes cambiarlo)
- * - Si todo ok → muestra el children (la página privada)
+ * - Sin props: sólo ADMIN (comportamiento legacy)
+ * - Con requiredRole: valida ese rol exacto (por ej. "TRABAJADOR")
  */
-function ProtectedRoute({ children }) {
-  const { token, isAdmin } = useAuth();
+function ProtectedRoute({ children, requiredRole }) {
+  // ⬇️ ESTA LÍNEA ES LA QUE FALTABA
+  const { token, user, isAdmin } = useAuth();
 
-  // No autenticado -> a login admin
+  // 1) No autenticado -> a login
   if (!token) {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // Autenticado pero sin rol admin -> al home (o donde quieras)
+  // 2) Si se especifica un rol requerido (ej: TRABAJADOR)
+  if (requiredRole) {
+    if (user?.rol !== requiredRole) {
+      // Tiene token, pero rol incorrecto → lo mando al home
+      return <Navigate to="/" replace />;
+    }
+    return children; // rol correcto
+  }
+
+  // 3) Comportamiento anterior: sólo admin
   if (!isAdmin) {
     return <Navigate to="/" replace />;
   }
 
-  // Autenticado y con rol correcto -> renderiza contenido privado
   return children;
 }
 

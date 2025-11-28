@@ -1,7 +1,8 @@
+// src/Paginas/AdminLogin.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "../styles/AdminLogin.css"; 
+import "../styles/AdminLogin.css";
 
 function AdminLogin() {
   const { login } = useAuth();
@@ -18,8 +19,16 @@ function AdminLogin() {
     setCargando(true);
 
     try {
-      await login(email, password);
-      navigate("/admin"); // éxito → dashboard
+      // ⬇️ ahora login devuelve el usuario autenticado
+      const usuario = await login(email, password);
+
+      // Redirección según rol
+      if (usuario?.rol === "TRABAJADOR") {
+        navigate("/trabajador");
+      } else {
+        // por defecto, admin
+        navigate("/admin");
+      }
     } catch (err) {
       console.error(err);
       setError("Credenciales inválidas o error en el servidor");
@@ -32,11 +41,7 @@ function AdminLogin() {
     <div className="login-wrapper">
       <h2 className="login-title">Login administrador</h2>
 
-      {error && (
-        <div className="login-error">
-          {error}
-        </div>
-      )}
+      {error && <div className="login-error">{error}</div>}
 
       <form onSubmit={handleSubmit} className="login-form">
         <div className="login-input-group">
@@ -72,5 +77,3 @@ function AdminLogin() {
 }
 
 export default AdminLogin;
-
-
