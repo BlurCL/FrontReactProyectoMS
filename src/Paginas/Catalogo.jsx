@@ -15,7 +15,6 @@ const CATEGORIAS_POR_ID = {
   8: "Tortas Circulares",
 };
 
-// Mapa ID → imágenes
 const IMAGENES_POR_ID = {
   "202": imgTortaChocolate,
   "203": imgTortaPina,
@@ -27,7 +26,6 @@ function Catalogo() {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
-
   const { agregarAlCarrito } = useCarrito();
 
   useEffect(() => {
@@ -46,8 +44,7 @@ function Catalogo() {
             categoriaId: p.categoriaId,
             categoria: CATEGORIAS_POR_ID[p.categoriaId] || "Sin categoría",
             imagen: IMAGENES_POR_ID[codigo] || imgDefault,
-          };
-        });
+          }; });
 
         setProductos(normalizados);
       } catch (err) {

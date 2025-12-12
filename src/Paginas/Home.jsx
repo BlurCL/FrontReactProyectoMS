@@ -8,22 +8,18 @@ import torta3 from "../img/torta3.jpg";
 function Home() {
   return (
     <main className="home">
-      {/* Sección Hero */}
+      
       <section className="hero">
         <h1>Bienvenido</h1>
         <p>
           Pastelería artesanal con ingredientes frescos, diseños únicos y el
           sabor que endulza tus momentos.
         </p>
-
-        {/* Mejor usar Link para SPA */}
         <Link className="btn-catalogo" to="/catalogo-api">
           Ver Catálogo
         </Link>
       </section>
-
       <p>Descubre las mejores recetas para preparar en casa con solo un clic!!</p>
-
       <section className="image-container">
         <Link to="/receta-premium">
           <div className="image-card">

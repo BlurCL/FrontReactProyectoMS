@@ -9,12 +9,9 @@
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   --transition: all 0.3s ease;
 }
-
-/* Seguridad global */
 * {
   box-sizing: border-box;
 }
-
 html,
 body {
   margin: 0;
@@ -22,8 +19,6 @@ body {
   max-width: 100%;
   overflow-x: hidden;
 }
-
-/* HOME */
 .home {
   background: var(--bg);
   color: var(--text);
@@ -31,8 +26,6 @@ body {
   font-family: "Poppins", sans-serif;
   padding-bottom: 40px;
 }
-
-/* Hero */
 .hero {
   background: linear-gradient(180deg, var(--soft), #ffffff);
   padding: 60px 20px 40px;

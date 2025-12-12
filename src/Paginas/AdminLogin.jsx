@@ -36,6 +36,7 @@ function AdminLogin() {
     setCargando(true);
 
     try {
+<<<<<<< Updated upstream
       // 🔐 Login al backend
       const usuario = await login(email, password);
 
@@ -45,6 +46,11 @@ function AdminLogin() {
       } else {
         navigate("/admin");
       }
+=======
+      await login(email, password);
+      navigate("/admin");
+    
+>>>>>>> Stashed changes
     } catch (err) {
       console.error(err);
       setError("Credenciales inválidas o error en el servidor");
