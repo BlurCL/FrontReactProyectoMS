@@ -17,6 +17,7 @@ export default function AdminEnvios() {
   const cargarEnvios = async () => {
     try {
       setLoading(true);
+      
       setMensaje("");
 
       const resp = await apiClient.get(API_ENVIOS);

@@ -14,9 +14,7 @@ function AdminLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-
-    // ✅ Validación en JS / React (ANTES de llamar al backend)
+    setError(""); 
     if (!email.trim() || !password.trim()) {
       setError("Debes completar correo y contraseña");
       return;
@@ -33,24 +31,15 @@ function AdminLogin() {
       return;
     }
 
-    setCargando(true);
+    setCargando(true); 
 
     try {
-<<<<<<< Updated upstream
-      // 🔐 Login al backend
       const usuario = await login(email, password);
-
-      // 🔁 Redirección según rol
       if (usuario?.rol === "TRABAJADOR") {
         navigate("/trabajador");
       } else {
         navigate("/admin");
       }
-=======
-      await login(email, password);
-      navigate("/admin");
-    
->>>>>>> Stashed changes
     } catch (err) {
       console.error(err);
       setError("Credenciales inválidas o error en el servidor");
@@ -65,7 +54,7 @@ function AdminLogin() {
 
       {error && <div className="login-error">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="login-form"  noValidate>
+      <form onSubmit={handleSubmit} className="login-form" noValidate>
         <div className="login-input-group">
           <label className="login-label">Correo</label>
           <input
@@ -99,3 +88,4 @@ function AdminLogin() {
 }
 
 export default AdminLogin;
+
